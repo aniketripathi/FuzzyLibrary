@@ -19,12 +19,16 @@ public class Test {
 			fset1.add(element[i], i/10.0);
 		}
 		
-		for(int i = 3; i < 7; i++){
-			fset2.add(element[i], i/6.0);
+		for(int i = 0; i < 5; i++){
+			fset2.add(element[i], i/10.0);
 		}
 		
 		System.out.println(fset1);
 		System.out.println(fset2);
 		System.out.println(fset1.union(fset2));
+		System.out.println(fset1.intersection(fset2));
+		System.out.println(fset1.complement());
+		System.out.println(fset1.product(fset2));
+		System.out.println(fset1.equals(fset2));
 	}
 }
