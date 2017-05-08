@@ -1,33 +1,38 @@
 package fuzzysystem;
 
-/***
+/**
  * 
- * @author aniket
+ * 
+ * 
+ * @author Aniket Kumar Tripathi
+ * @version 1.0
  * 
  */
 public final class Element {
-
-	private final String name;
-	private final double value;
-	private final boolean useValueAsName;
+	
+	private final String	name;
+	private final double	value;
+	private final boolean	useValueAsName;
 	
 	
 	
-	public Element(String name, double value){
-			this.name = name;
-			this.value = value;
-			this.useValueAsName = false;
+	public Element(String name, double value) {
+		this.name = name;
+		this.value = value;
+		this.useValueAsName = false;
 	}
 	
 	
 	
-	public Element(String name, double value, boolean useValueAsName){
+	public Element(String name, double value, boolean useValueAsName) {
 		this.name = name;
 		this.value = value;
 		this.useValueAsName = useValueAsName;
 	}
 	
-	public Element(double value){
+	
+	
+	public Element(double value) {
 		this.name = null;
 		this.value = value;
 		this.useValueAsName = true;
@@ -35,7 +40,7 @@ public final class Element {
 	
 	
 	
-	public Element(double value, boolean useNameAsValue){
+	public Element(double value, boolean useNameAsValue) {
 		this.name = null;
 		this.value = value;
 		this.useValueAsName = useNameAsValue;
@@ -43,7 +48,7 @@ public final class Element {
 	
 	
 	
-	public Element(Element element){
+	public Element(Element element) {
 		this.name = element.name;
 		this.value = element.value;
 		this.useValueAsName = element.useValueAsName;
@@ -51,7 +56,7 @@ public final class Element {
 	
 	
 	
-	public Element(String name){
+	public Element(String name) {
 		this.value = 0;
 		this.name = name;
 		this.useValueAsName = false;
@@ -59,29 +64,34 @@ public final class Element {
 	
 	
 	
-	public String getName(){
+	public String getName() {
+		
 		return name;
 	}
 	
 	
 	
-	public double getValue(){
+	public double getValue() {
+		
 		return value;
 	}
 	
 	
 	
-	public boolean useValueAsName(){
+	public boolean useValueAsName() {
+		
 		return useValueAsName;
 	}
 	
 	
-	@Override	
-	public String toString(){
-		if(useValueAsName)		return new Double(value).toString();
+	
+	@Override
+	public String toString() {
+		
+		if (useValueAsName)
+			return new Double(value).toString();
+		
 		return name;
 	}
-	
-	
 	
 }
