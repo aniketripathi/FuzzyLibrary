@@ -16,11 +16,11 @@ import fuzzysystem.exceptions.MembershipOutOfRangeException;
  */
 public interface FuzzySet {
 	
-	public void add(Element element, Double value) throws MembershipOutOfRangeException;
+	public DiscreteFuzzySet add(Element element, Double value) throws MembershipOutOfRangeException;
 	
 	
 	
-	public void remove(Element element);
+	public DiscreteFuzzySet remove(Element element);
 	
 	
 	

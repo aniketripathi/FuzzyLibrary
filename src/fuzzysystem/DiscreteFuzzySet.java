@@ -52,20 +52,23 @@ public class DiscreteFuzzySet implements FuzzySet {
 	
 	
 	@Override
-	public void add(Element element, Double value) throws MembershipOutOfRangeException {
+	public DiscreteFuzzySet add(Element element, Double value) throws MembershipOutOfRangeException {
 		
 		if (value < 0 || value > 1)
 			throw new MembershipOutOfRangeException();
 		
 		map.put(element, value);
+		
+		return this;
 	}
 	
 	
 	
 	@Override
-	public void remove(Element element) {
+	public DiscreteFuzzySet remove(Element element) {
 		
 		map.remove(element);
+		return this;
 	}
 	
 	
@@ -326,20 +329,22 @@ public class DiscreteFuzzySet implements FuzzySet {
 		StringBuilder buffer = new StringBuilder(map.size() * 25);
 		buffer.append("[ ");
 		Iterator<Element> iterator = iterator();
-		Element e;
+		Element element;
 		
 		if (iterator.hasNext()) {
-			buffer.append("(");
-			e = iterator.next();
-			buffer.append(e.toString() + "," + map.get(e).toString());
-			buffer.append(")");
+			buffer.append('(');
+			element = iterator.next();
+			buffer.append(element.toString() + "," + map.get(element).toString());
+			buffer.append(')');
 		}
 		
 		while (iterator.hasNext()) {
 			buffer.append(",(");
-			e = iterator.next();
-			buffer.append(e.toString() + "," + map.get(e).toString());
-			buffer.append(")");
+			element = iterator.next();
+			buffer.append(element.toString());
+			buffer.append(',');
+			buffer.append(map.get(element).toString());
+			buffer.append(')');
 		}
 		
 		buffer.append(" ]");

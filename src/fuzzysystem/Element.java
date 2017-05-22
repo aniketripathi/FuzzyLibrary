@@ -33,7 +33,7 @@ public final class Element {
 	
 	
 	public Element(double value) {
-		this.name = null;
+		this.name = "";
 		this.value = value;
 		this.useValueAsName = true;
 	}
@@ -41,14 +41,14 @@ public final class Element {
 	
 	
 	public Element(double value, boolean useNameAsValue) {
-		this.name = null;
+		this.name = "";
 		this.value = value;
 		this.useValueAsName = useNameAsValue;
 	}
 	
 	
 	
-	public Element(Element element) {
+	public Element(Element element) {		
 		this.name = element.name;
 		this.value = element.value;
 		this.useValueAsName = element.useValueAsName;
@@ -88,10 +88,7 @@ public final class Element {
 	@Override
 	public String toString() {
 		
-		if (useValueAsName)
-			return new Double(value).toString();
-		
-		return name;
+		return (useValueAsName) ? Double.toString(value) : name;
 	}
 	
 }

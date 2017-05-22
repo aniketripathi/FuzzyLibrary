@@ -23,6 +23,13 @@ public final class Singleton {
 	
 	
 	
+	public Singleton(Element element, AbstractFuzzySet fset) {
+		this.element = element;
+		membership = fset.getMembershipValue(element.getValue());
+	}
+	
+	
+	
 	public double getMembershipValue() {
 		
 		return membership;

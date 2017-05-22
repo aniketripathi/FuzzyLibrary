@@ -4,10 +4,8 @@ public abstract class AbstractFuzzySet {
 	
 	protected boolean outOfRange(double membership) {
 		
-		if (membership > 1 || membership < 0)
-			return true;
-		
-		return false;
+		return (membership > 1 || membership < 0);
+			
 	}
 	
 	
