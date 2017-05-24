@@ -5,7 +5,7 @@ public abstract class AbstractFuzzySet {
 	protected boolean outOfRange(double membership) {
 		
 		return (membership > 1 || membership < 0);
-			
+		
 	}
 	
 	
@@ -14,5 +14,8 @@ public abstract class AbstractFuzzySet {
 	
 	
 	
-	public abstract double getMembershipValue(Element element);
+	public double getMembershipValue(Element element) {
+		
+		return getMembershipValue(element.getValue());
+	}
 }

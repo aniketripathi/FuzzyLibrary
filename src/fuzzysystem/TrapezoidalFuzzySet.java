@@ -46,26 +46,21 @@ public class TrapezoidalFuzzySet extends AbstractFuzzySet {
 	@Override
 	public double getMembershipValue(double xValue) {
 		
+		double yValue;
+		
 		if (xValue < lset1.getXLower() && xValue > lset2.getXUpper())
-			return 0;
+			yValue = 0;
 		
 		if (xValue >= lset1.getXLower() && xValue <= lset1.getXUpper())
-			return lset1.getMembershipValue(xValue);
+			yValue = lset1.getMembershipValue(xValue);
 		
 		if (xValue > lset1.getXUpper() && xValue < lset2.getXLower())
-			return lset1.getYUpper();
+			yValue = lset1.getYUpper();
 		
 		else
-			return lset2.getMembershipValue(xValue);
+			yValue = lset2.getMembershipValue(xValue);
 		
-	}
-	
-	
-	
-	@Override
-	public double getMembershipValue(Element element) {
-		
-		return getMembershipValue(element.getValue());
+		return yValue;
 		
 	}
 	

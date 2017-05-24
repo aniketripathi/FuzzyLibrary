@@ -48,7 +48,7 @@ public final class Element {
 	
 	
 	
-	public Element(Element element) {		
+	public Element(Element element) {
 		this.name = element.name;
 		this.value = element.value;
 		this.useValueAsName = element.useValueAsName;
