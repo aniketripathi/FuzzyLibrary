@@ -7,7 +7,7 @@ public final class MembershipOutOfRangeException extends Exception {
 	
 	
 	public MembershipOutOfRangeException() {
-		super("Membership value cannot be beyound [0,1]\n");
+		super("Membership value cannot be beyound [0,1].\n");
 	}
 	
 	

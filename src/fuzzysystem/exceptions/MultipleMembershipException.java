@@ -7,7 +7,7 @@ public class MultipleMembershipException extends Throwable {
 	
 	
 	public MultipleMembershipException() {
-		super("Multiple membership values at a single point exist.");
+		super("Multiple membership values at a single point exist.", new InvalidShapeException());
 	}
 	
 	
