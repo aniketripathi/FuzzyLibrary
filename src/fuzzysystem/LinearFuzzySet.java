@@ -7,16 +7,13 @@ import fuzzysystem.exceptions.MultipleMembershipException;
 
 public class LinearFuzzySet extends AbstractFuzzySet {
 	
-	private double	xLower;
-	private double	xUpper;
-	private double	yLower;
-	private double	yUpper;
+	private double xLower, xUpper, yLower, yUpper;
 	
 	// y = (yUpper - yLower)/(xUpper - xLower) * (xValue - xLower) + yLower
 	
 	
 	
-	public LinearFuzzySet(double xLower, double xUpper, double yLower, double yUpper)
+	public LinearFuzzySet(double xLower, double yLower, double xUpper, double yUpper)
 			throws MembershipOutOfRangeException, MultipleMembershipException {
 		this.xLower = xLower;
 		this.xUpper = xUpper;
@@ -68,18 +65,9 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	@Override
 	public double getMembershipValue(double xValue) {
 		
-		if (xValue < xLower || xValue > xUpper)
-			return 0;
-		
-		return ((yUpper - yLower) / (xUpper - xLower) * (xValue - xLower) + yLower);
-	}
-	
-	
-	
-	@Override
-	public double getMembershipValue(Element element) {
-		
-		return getMembershipValue(element.getValue());
+		return (xValue < xLower || xValue > xUpper)
+				? 0
+				: (yUpper - yLower) / (xUpper - xLower) * (xValue - xLower) + yLower;
 	}
 	
 	
@@ -132,6 +120,37 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	}
 	
 	
+	public double getSlope(){
+		return (yUpper - yLower)/(xUpper - xLower);
+	}
+	
+	
+	public double getWeightedMean(){
+		/**   weighted mean (based on integration) = 
+			2/3m[(x0+x1)^2 - x0x1] +  c[x0+x1] /  [ m(x0+x1) + 2c ]
+			where m and c are slope and y intercept of the equation 
+		**/
+		double sum = xUpper + xLower, m = getSlope(), c = yUpper - m * xUpper;
+		return ((2.0/3.0) * m * ( sum * sum - xUpper * xLower) + c * sum) /
+				(m * sum + 2.0 * c);
+		
+	}
+	
+	
+	public double maxMembershipAt(){
+		
+		return (yLower > yUpper)? xLower : xUpper;
+	}
+	
+	
+	
+	public double getArea(){
+		
+		
+		return (yUpper == yLower)
+				? (Math.abs(xUpper - xLower) * yLower)		// sloper is zero
+				: (0.5 * Math.abs(xUpper - xLower) * Math.abs(yUpper - yLower)); 		// non zero slope
+	}
 	
 	public double getXLower() {
 		
