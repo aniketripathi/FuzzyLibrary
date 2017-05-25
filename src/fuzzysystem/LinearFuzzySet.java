@@ -1,7 +1,7 @@
 package fuzzysystem;
 
+import fuzzysystem.exceptions.InvalidShapeException;
 import fuzzysystem.exceptions.MembershipOutOfRangeException;
-import fuzzysystem.exceptions.MultipleMembershipException;
 
 
 
@@ -14,12 +14,12 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	
 	
 	public LinearFuzzySet(double xLower, double yLower, double xUpper, double yUpper)
-			throws MembershipOutOfRangeException, MultipleMembershipException {
+			throws MembershipOutOfRangeException, InvalidShapeException {
 		this.xLower = xLower;
 		this.xUpper = xUpper;
 		
-		if (xLower == xUpper)
-			throw new MultipleMembershipException();
+		if (xLower >= xUpper)
+			throw new InvalidShapeException();
 		
 		if (outOfRange(yLower) || outOfRange(yUpper))
 			throw new MembershipOutOfRangeException();
@@ -31,12 +31,12 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public LinearFuzzySet(double xLower, double xUpper, double yUpper) throws MembershipOutOfRangeException, MultipleMembershipException {
+	public LinearFuzzySet(double xLower, double xUpper, double yUpper) throws MembershipOutOfRangeException, InvalidShapeException {
 		this.xLower = xLower;
 		this.xUpper = xUpper;
 		
-		if (xLower == xUpper)
-			throw new MultipleMembershipException();
+		if (xLower >= xUpper)
+			throw new InvalidShapeException();
 		
 		if (outOfRange(yUpper))
 			throw new MembershipOutOfRangeException();
@@ -48,12 +48,12 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public LinearFuzzySet(double xLower, double xUpper) throws MultipleMembershipException {
+	public LinearFuzzySet(double xLower, double xUpper) throws InvalidShapeException {
 		this.xLower = xLower;
 		this.xUpper = xUpper;
 		
-		if (xLower == xUpper)
-			throw new MultipleMembershipException();
+		if (xLower >= xUpper)
+			throw new InvalidShapeException();
 		
 		this.yLower = 0;
 		this.yUpper = 1;
@@ -68,13 +68,6 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 		return (xValue < xLower || xValue > xUpper)
 				? 0
 				: (yUpper - yLower) / (xUpper - xLower) * (xValue - xLower) + yLower;
-	}
-	
-	
-	
-	public Singleton getSingleton(Element element) throws MembershipOutOfRangeException {
-		
-		return new Singleton(element, getMembershipValue(element));
 	}
 	
 	
@@ -120,37 +113,55 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	}
 	
 	
-	public double getSlope(){
-		return (yUpper - yLower)/(xUpper - xLower);
+	
+	public double getSlope() {
+		
+		return (yUpper - yLower) / (xUpper - xLower);
 	}
 	
 	
-	public double getWeightedMean(){
-		/**   weighted mean (based on integration) = 
-			2/3m[(x0+x1)^2 - x0x1] +  c[x0+x1] /  [ m(x0+x1) + 2c ]
-			where m and c are slope and y intercept of the equation 
-		**/
+	
+	public double getWeightedMean() {
+		
+		/**
+		 * weighted mean (based on integration) =
+		 * 2/3m[(x0+x1)^2 - x0x1] + c[x0+x1] / [ m(x0+x1) + 2c ]
+		 * where m and c are slope and y intercept of the equation
+		 **/
 		double sum = xUpper + xLower, m = getSlope(), c = yUpper - m * xUpper;
-		return ((2.0/3.0) * m * ( sum * sum - xUpper * xLower) + c * sum) /
+		return ((2.0 / 3.0) * m * (sum * sum - xUpper * xLower) + c * sum) /
 				(m * sum + 2.0 * c);
 		
 	}
 	
 	
-	public double maxMembershipAt(){
+	
+	public double maxMembershipAt() {
 		
-		return (yLower > yUpper)? xLower : xUpper;
+		double maxMembershipAt;
+		
+		if (yLower > yUpper)
+			maxMembershipAt = xLower;
+		
+		else if (yLower < yUpper)
+			maxMembershipAt = xUpper;
+		
+		else
+			maxMembershipAt = (xUpper + xLower) / 2;
+		
+		return maxMembershipAt;
 	}
 	
 	
 	
-	public double getArea(){
-		
+	public double getArea() {
 		
 		return (yUpper == yLower)
 				? (Math.abs(xUpper - xLower) * yLower)		// sloper is zero
 				: (0.5 * Math.abs(xUpper - xLower) * Math.abs(yUpper - yLower)); 		// non zero slope
 	}
+	
+	
 	
 	public double getXLower() {
 		

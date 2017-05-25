@@ -1,5 +1,6 @@
 package fuzzysystem;
 
+import fuzzysystem.exceptions.InvalidShapeException;
 import fuzzysystem.exceptions.MembershipOutOfRangeException;
 
 
@@ -38,7 +39,10 @@ public class SShapedFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public SShapedFuzzySet(double xLower, double yLower, double xUpper, double yUpper) throws MembershipOutOfRangeException {
+	public SShapedFuzzySet(double xLower, double yLower, double xUpper, double yUpper) throws MembershipOutOfRangeException, InvalidShapeException {
+		
+		if (xLower >= xUpper)
+			throw new InvalidShapeException("S shape", "Unknown");
 		
 		this.xLower = xLower;
 		this.xUpper = xUpper;
@@ -53,7 +57,11 @@ public class SShapedFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public SShapedFuzzySet(double xLower, double xUpper) {
+	public SShapedFuzzySet(double xLower, double xUpper) throws InvalidShapeException {
+		
+		if (xLower >= xUpper)
+			throw new InvalidShapeException("S shape", "Unknown");
+		
 		this.xLower = xLower;
 		this.yLower = 0;
 		this.xUpper = xUpper;
@@ -66,15 +74,16 @@ public class SShapedFuzzySet extends AbstractFuzzySet {
 	public double getMembershipValue(double xValue) {
 		
 		double yValue;
+		final double factor = getFactor();
 		
 		if (xValue <= xLower)
 			yValue = yLower;
 		
-		else if (xValue <= (xLower + xUpper) / 2)
-			yValue = 2 * Math.pow((xValue - xLower) / (xUpper - xLower), 2);
+		else if (xValue <= (xLower + xUpper) / 2.0)
+			yValue = yLower + factor * Math.pow((xValue - xLower) / (xUpper - xLower), 2);
 		
 		else if (xValue <= xUpper)
-			yValue = yUpper - 2 * Math.pow((xValue - xLower) / (xUpper - xLower), 2);
+			yValue = yUpper - factor * Math.pow((xValue - xUpper) / (xUpper - xLower), 2);
 		
 		else
 			yValue = yUpper;
@@ -84,9 +93,24 @@ public class SShapedFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public Singleton getSingleton(Element element) throws MembershipOutOfRangeException {
+	public double maxMembershipAt() {
 		
-		return new Singleton(element, getMembershipValue(element));
+		return xUpper;
+	}
+	
+	
+	
+	// TODO check the formula
+	public double getArea() {
+		
+		return (yUpper + yLower) * (xUpper - xLower) / 2.0;
+	}
+	
+	
+	
+	public double getFactor() {
+		
+		return (yUpper - yLower) * 2;
 	}
 	
 	

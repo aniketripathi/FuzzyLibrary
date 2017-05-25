@@ -1,18 +1,16 @@
 package fuzzysystem;
 
 import fuzzysystem.exceptions.MembershipOutOfRangeException;
-import fuzzysystem.exceptions.MultipleMembershipException;
 
 
 
 public class Test {
 	
-	public static void main(String[] args) throws MembershipOutOfRangeException, MultipleMembershipException {
-
+	public static void main(String[] args) throws MembershipOutOfRangeException {
 		
-		TriangularFuzzySet lset = new TriangularFuzzySet(0, 7, 10);
-		System.out.println(lset.getArea()+ ","+ lset.getLinearFuzzySet1().getArea() + "," + lset.getLinearFuzzySet2().getArea());
-		System.out.println(lset.getWeightedMean() + "," + lset.getMembershipValue(lset.getWeightedMean()));
+		SShapedFuzzySet lset = new SShapedFuzzySet(0, 5);
+		System.out.println(lset.getArea());
+		// System.out.println(lset.getWeightedMean() + "," + lset.getMembershipValue(lset.getWeightedMean()));
 		System.out.println(lset.maxMembershipAt() + " " + lset.getMembershipValue(lset.maxMembershipAt()));
 		
 	}

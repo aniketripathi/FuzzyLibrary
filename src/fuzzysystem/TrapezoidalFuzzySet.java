@@ -1,7 +1,7 @@
 package fuzzysystem;
 
+import fuzzysystem.exceptions.InvalidShapeException;
 import fuzzysystem.exceptions.MembershipOutOfRangeException;
-import fuzzysystem.exceptions.MultipleMembershipException;
 
 
 
@@ -12,7 +12,20 @@ public class TrapezoidalFuzzySet extends AbstractFuzzySet {
 	
 	
 	public TrapezoidalFuzzySet(double xLower, double yLower, double xMiddle1, double xMiddle2, double yMiddle, double xUpper)
-			throws MembershipOutOfRangeException, MultipleMembershipException {
+			throws MembershipOutOfRangeException, InvalidShapeException {
+		
+		if (xLower >= xMiddle1 || xMiddle2 >= xUpper)
+			throw new InvalidShapeException("Trapezoid", "Unknown");
+		
+		double m1 = (yMiddle - yLower) / (xMiddle1 - xLower),
+				m2 = (yMiddle - yLower) / (xMiddle2 - xUpper);
+		
+		if (m1 * m2 > 0)
+			throw new InvalidShapeException("Trapezoid", "Parallelogram");
+		
+		if (xMiddle1 >= xMiddle2)
+			throw new InvalidShapeException("Trapezoid", "Triangle");
+		
 		lset1 = new LinearFuzzySet(xLower, yLower, xMiddle1, yMiddle);
 		lset2 = new LinearFuzzySet(xMiddle2, yMiddle, xUpper, yLower);
 		
@@ -20,11 +33,23 @@ public class TrapezoidalFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public TrapezoidalFuzzySet(double xLower, double xMiddle1, double xMiddle2, double xUpper) throws MultipleMembershipException {
+	public TrapezoidalFuzzySet(double xLower, double xMiddle1, double xMiddle2, double xUpper) throws InvalidShapeException {
+		
+		if (xLower >= xMiddle1 || xMiddle2 >= xUpper)
+			throw new InvalidShapeException("Trapezoid", "Unknown");
+		
+		double m1 = 1.0 / (xMiddle1 - xLower),
+				m2 = 1.0 / (xMiddle2 - xUpper);
+		
+		if (m1 * m2 > 0)
+			throw new InvalidShapeException("Trapezoid", "Parallelogram");
+		
+		if (xMiddle1 >= xMiddle2)
+			throw new InvalidShapeException("Trapezoid", "Triangle");
+		
 		lset1 = new LinearFuzzySet(xLower, xMiddle1);
 		
 		try {
-			
 			lset2 = new LinearFuzzySet(xMiddle2, 1.0, xUpper, 0.0);
 		}
 		catch (MembershipOutOfRangeException e) {
@@ -36,7 +61,7 @@ public class TrapezoidalFuzzySet extends AbstractFuzzySet {
 	
 	
 	public TrapezoidalFuzzySet(double xLower, double xMiddle1, double xMiddle2, double yMiddle, double xUpper)
-			throws MembershipOutOfRangeException, MultipleMembershipException {
+			throws MembershipOutOfRangeException, InvalidShapeException {
 		
 		this(xLower, 0.0, xMiddle1, xMiddle2, yMiddle, xUpper);
 	}
@@ -66,9 +91,35 @@ public class TrapezoidalFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public Singleton getSingleton(Element element) throws MembershipOutOfRangeException {
+	public double maxMembershipAt() {
 		
-		return new Singleton(element, getMembershipValue(element));
+		return Math.max(lset1.maxMembershipAt(), lset2.maxMembershipAt());
+	}
+	
+	
+	
+	public double getWeightedMean() {
+		
+		double x1 = lset1.getWeightedMean(),
+				x2 = lset2.getWeightedMean(),
+				x3 = (lset1.getXUpper() + lset2.getXLower()) / 2,
+				w1 = lset1.getMembershipValue(x1),
+				w2 = lset2.getMembershipValue(x2),
+				w3 = lset1.getYUpper();
+		
+		return (x1 * w1 + x2 * w2 + x3 * w3) / (w1 + w2 + w3);
+	}
+	
+	
+	
+	public double getArea() {
+		
+		double area = lset1.getArea() + lset2.getArea(),
+				m1 = lset1.getSlope();
+		
+		return (m1 > 0) ? area + (lset1.getYUpper() - lset1.getYLower()) * (lset2.getXLower() - lset1.getXUpper())
+				: area;
+		
 	}
 	
 	

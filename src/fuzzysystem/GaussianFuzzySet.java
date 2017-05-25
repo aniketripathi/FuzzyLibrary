@@ -1,6 +1,6 @@
 package fuzzysystem;
 
-import fuzzysystem.exceptions.MembershipOutOfRangeException;
+import fuzzysystem.exceptions.InvalidShapeException;
 
 
 
@@ -10,7 +10,11 @@ public class GaussianFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public GaussianFuzzySet(double a, double b) {
+	public GaussianFuzzySet(double a, double b) throws InvalidShapeException {
+		
+		if (a <= 0)
+			throw new InvalidShapeException("Gaussian", "Unknown");
+		
 		this.a = a;
 		this.b = b;
 		
@@ -26,9 +30,24 @@ public class GaussianFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public Singleton getSingleton(Element element) throws MembershipOutOfRangeException {
+	public double getWeightedMean() {
 		
-		return new Singleton(element, getMembershipValue(element));
+		return b;
+	}
+	
+	
+	
+	public double maxMembershipAt() {
+		
+		return b;
+	}
+	
+	
+	
+	public double getArea() {
+		
+		// Math.sqrt(Math.PI * 2) = 2.50662827463
+		return 2.50662827463 * a;
 	}
 	
 	

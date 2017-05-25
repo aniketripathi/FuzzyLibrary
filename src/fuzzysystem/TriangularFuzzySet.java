@@ -2,7 +2,6 @@ package fuzzysystem;
 
 import fuzzysystem.exceptions.InvalidShapeException;
 import fuzzysystem.exceptions.MembershipOutOfRangeException;
-import fuzzysystem.exceptions.MultipleMembershipException;
 
 
 
@@ -16,10 +15,10 @@ public class TriangularFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public TriangularFuzzySet(double xLower, double xMiddle, double xUpper, double yLower, double yUpper)
-			throws MembershipOutOfRangeException, MultipleMembershipException {
+	public TriangularFuzzySet(double xLower, double yLower, double xMiddle, double xUpper, double yUpper)
+			throws MembershipOutOfRangeException, InvalidShapeException {
 		
-		if(xLower == xMiddle || xMiddle == xUpper)
+		if (xLower >= xMiddle || xMiddle >= xUpper)
 			throw new InvalidShapeException("Triangle", "Unknown");
 		
 		lset1 = new LinearFuzzySet(xLower, xMiddle, yLower, yUpper);
@@ -29,20 +28,16 @@ public class TriangularFuzzySet extends AbstractFuzzySet {
 	
 	
 	public TriangularFuzzySet(double xLower, double xMiddle, double xUpper, double yUpper)
-			throws MembershipOutOfRangeException, MultipleMembershipException {
-	
-		if(xLower == xMiddle || xMiddle == xUpper)
-			throw new InvalidShapeException("Triangle", "Unkown");
+			throws MembershipOutOfRangeException, InvalidShapeException {
 		
-		lset1 = new LinearFuzzySet(xLower, xMiddle, yUpper);
-		lset2 = new LinearFuzzySet(xMiddle, xUpper, yUpper);
+		this(xLower, 0.0, xMiddle, xUpper, yUpper);
 	}
 	
 	
 	
-	public TriangularFuzzySet(double xLower, double xMiddle, double xUpper) throws MultipleMembershipException {
+	public TriangularFuzzySet(double xLower, double xMiddle, double xUpper) throws InvalidShapeException {
 		
-		if(xLower == xMiddle || xMiddle == xUpper)
+		if (xLower >= xMiddle || xMiddle >= xUpper)
 			throw new InvalidShapeException("Triangle", "Unkown");
 		
 		lset1 = new LinearFuzzySet(xLower, xMiddle);
@@ -50,9 +45,9 @@ public class TriangularFuzzySet extends AbstractFuzzySet {
 		LinearFuzzySet temp;
 		
 		try {
-		temp = new LinearFuzzySet(xMiddle, 1.0, xUpper, 0.0);
+			temp = new LinearFuzzySet(xMiddle, 1.0, xUpper, 0.0);
 		}
-		catch(MembershipOutOfRangeException e){
+		catch (MembershipOutOfRangeException e) {
 			temp = null;
 			e.printStackTrace();
 		}
@@ -81,29 +76,26 @@ public class TriangularFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public Singleton getSingleton(Element element) throws MembershipOutOfRangeException {
+	public double getArea() {
 		
-		return new Singleton(element, getMembershipValue(element));
-		
-	}
-	
-	
-	public double getArea(){
 		return lset1.getArea() + lset2.getArea();
 	}
 	
 	
-	public double maxMembershipAt(){
+	
+	public double maxMembershipAt() {
+		
 		return Math.max(lset1.maxMembershipAt(), lset2.maxMembershipAt());
 	}
 	
 	
-	public double getWeightedMean(){
-		double  x1 = lset1.getWeightedMean(), x2 = lset2.getWeightedMean(),
+	
+	public double getWeightedMean() {
+		
+		double x1 = lset1.getWeightedMean(), x2 = lset2.getWeightedMean(),
 				w1 = lset1.getMembershipValue(x1), w2 = lset2.getMembershipValue(x2);
 		
-		
-		return  (x1 * w1 + x2 * w2) / (w1 + w2);
+		return (x1 * w1 + x2 * w2) / (w1 + w2);
 	}
 	
 	
