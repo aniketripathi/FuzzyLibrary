@@ -54,7 +54,6 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	
 	public DiscreteFuzzySet add(Element element, Double value) throws MembershipOutOfRangeException {
 		
 		if (value < 0 || value > 1)
@@ -67,13 +66,11 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	
 	public DiscreteFuzzySet remove(Element element) {
 		
 		map.remove(element);
 		return this;
 	}
-	
 	
 	
 	
@@ -84,12 +81,10 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	
 	public boolean contains(Element element) {
 		
 		return map.containsKey(element);
 	}
-	
 	
 	
 	
@@ -100,12 +95,10 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	
 	public double getMembershipValue(Element element) {
 		
-		return (contains(element))? map.get(element):0.0;
+		return (contains(element)) ? map.get(element) : 0.0;
 	}
-	
 	
 	
 	
@@ -133,7 +126,6 @@ public class DiscreteFuzzySet {
 		}
 		return count;
 	}
-	
 	
 	
 	
@@ -165,7 +157,6 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	
 	public DiscreteFuzzySet intersection(DiscreteFuzzySet fuzzySet) {
 		
 		DiscreteFuzzySet intersectionSet = new DiscreteFuzzySet(Math.max(size(), fuzzySet.size()));
@@ -189,7 +180,6 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	
 	public DiscreteFuzzySet complement() {
 		
 		DiscreteFuzzySet complementSet = new DiscreteFuzzySet(size());
@@ -208,7 +198,6 @@ public class DiscreteFuzzySet {
 		return complementSet;
 		
 	}
-	
 	
 	
 	
@@ -318,8 +307,8 @@ public class DiscreteFuzzySet {
 			}
 			catch (MembershipOutOfRangeException e) {
 				// Although it is made sure that this will never happen
-			if(logger.isLoggable(Level.SEVERE))	
-				logger.log(Level.SEVERE ,"Membership value beyond [0,1] present in set for element: " + element);
+				if (logger.isLoggable(Level.SEVERE))
+					logger.log(Level.SEVERE, "Membership value beyond [0,1] present in set for element: " + element);
 			}
 		}
 		
@@ -328,7 +317,7 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	
+	@Override
 	public String toString() {
 		
 		StringBuilder buffer = new StringBuilder(map.size() * 25);
@@ -375,7 +364,6 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	
 	public double cardinalValue() {
 		
 		double sum = 0;
@@ -389,17 +377,16 @@ public class DiscreteFuzzySet {
 	
 	
 	
-	public HashSet<Element> getCrispIf(Predicate<Element> condition){
+	public HashSet<Element> getCrispIf(Predicate<Element> condition) {
 		
 		HashSet<Element> crisp = new HashSet<Element>(size());
 		Iterator<Element> iterator = iterator();
 		Element element;
 		
-		
-		while (iterator.hasNext()){
+		while (iterator.hasNext()) {
 			element = iterator.next();
 			
-			if(condition.test(element))
+			if (condition.test(element))
 				crisp.add(element);
 			
 		}
@@ -410,9 +397,8 @@ public class DiscreteFuzzySet {
 	
 	public HashSet<Element> getCrispAll() {
 		
-		return getCrispIf(element->true);
+		return getCrispIf(element -> true);
 	}
-	
 	
 	
 	
@@ -420,17 +406,15 @@ public class DiscreteFuzzySet {
 		
 		final double CORE_VALUE = 0.999999999;
 		
-		return getCrispIf(element-> element.getValue() >= CORE_VALUE);
+		return getCrispIf(element -> element.getValue() >= CORE_VALUE);
 	}
-	
 	
 	
 	
 	public HashSet<Element> getSupport() {
 		
-		return getCrispIf(element-> element.getValue() > 0);
+		return getCrispIf(element -> element.getValue() > 0);
 	}
-	
 	
 	
 	
@@ -438,7 +422,7 @@ public class DiscreteFuzzySet {
 		
 		double maxMembership = 0;
 		Iterator<Element> iterator = iterator();
-		Element element, 
+		Element element,
 				maxElement = null;
 		
 		while (iterator.hasNext()) {
@@ -472,7 +456,5 @@ public class DiscreteFuzzySet {
 		
 		return fuzzySet;
 	}
-	
-	
 	
 }

@@ -1,5 +1,9 @@
 package fuzzysystem;
 
+import fuzzysystem.exceptions.MembershipOutOfRangeException;
+
+
+
 public abstract class AbstractFuzzySet {
 	
 	protected boolean outOfRange(double membership) {
@@ -18,4 +22,23 @@ public abstract class AbstractFuzzySet {
 		
 		return getMembershipValue(element.getValue());
 	}
+	
+	
+	
+	public Singleton getSingleton(Element element) {
+		
+		Singleton singleton;
+		
+		try {
+			singleton = new Singleton(element, getMembershipValue(element));
+		}
+		
+		catch (MembershipOutOfRangeException e) {
+			singleton = null;
+		}
+		
+		return singleton;
+		
+	}
+	
 }
