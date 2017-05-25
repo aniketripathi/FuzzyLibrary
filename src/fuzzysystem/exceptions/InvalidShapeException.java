@@ -1,18 +1,22 @@
 package fuzzysystem.exceptions;
 
-
-public class InvalidShapeException extends RuntimeException{
+public class InvalidShapeException extends RuntimeException {
 	
 	private static final long serialVersionUID = -8117666073876794839L;
-
 	
-	public InvalidShapeException(String shapeRequired, String shapeFound){
-		this("Invalid shape for the given fuzzy set. Shape required " + shapeRequired + ", shape found " + shapeFound +".\n" );
+	
+	
+	public InvalidShapeException(String shapeRequired, String shapeFound) {
+		this("Invalid shape for the given fuzzy set.\nShape required " + shapeRequired + ", shape found " + shapeFound + ".\n");
 	}
+	
+	
 	
 	public InvalidShapeException() {
 		super("Invalid shape for the given fuzzy set\n");
 	}
+	
+	
 	
 	public InvalidShapeException(String message) {
 		super(message);
@@ -35,6 +39,5 @@ public class InvalidShapeException extends RuntimeException{
 	public InvalidShapeException(Throwable cause) {
 		super(cause);
 	}
-	
 	
 }
