@@ -11,34 +11,6 @@ public class SShapedFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public double getxLower() {
-		
-		return xLower;
-	}
-	
-	
-	
-	public double getyLower() {
-		
-		return yLower;
-	}
-	
-	
-	
-	public double getxUpper() {
-		
-		return xUpper;
-	}
-	
-	
-	
-	public double getyUpper() {
-		
-		return yUpper;
-	}
-	
-	
-	
 	public SShapedFuzzySet(double xLower, double yLower, double xUpper, double yUpper) throws MembershipOutOfRangeException, InvalidShapeException {
 		
 		if (xLower >= xUpper)
@@ -93,6 +65,7 @@ public class SShapedFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double maxMembershipAt() {
 		
 		return xUpper;
@@ -100,20 +73,35 @@ public class SShapedFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	// TODO check the formula
+	
+	@Override
 	public double getArea() {
 		
-		return (yUpper + yLower) * (xUpper - xLower) / 2.0;
+		double area = (yUpper + yLower) * (xUpper - xLower) / 2.0;
+		
+		return area + (xUpper - xLower) * Math.min(yUpper, yLower);
 	}
 	
 	
 	
 	public double getFactor() {
 		
-		return (yUpper - yLower) * 2;
+		return (yUpper - yLower) * 2.0;
 	}
 	
 	
+	//formula 
+	//(	y0(3a+b) + y1(3b+a) - k(b-a)/12 )/  4(y0 + y1)
+	@Override
+	public double getWeightedMean(){
+		
+		double  y0 = yLower, y1 = yUpper,
+				a  = xLower, b = xUpper, k = getFactor(); 
+		
+		return (y0*(3.0*a + b) + y1*(3.0*b + a) - k*(b - a) / 12.0) /
+				(y0 + y1) / 4.0;
+		
+	}
 	
 	public void shiftUp(double shiftBy) throws MembershipOutOfRangeException {
 		
@@ -150,5 +138,34 @@ public class SShapedFuzzySet extends AbstractFuzzySet {
 		this.xLower += shiftBy;
 		this.xUpper += shiftBy;
 	}
+	
+
+	public double getxLower() {
+		
+		return xLower;
+	}
+	
+	
+	
+	public double getyLower() {
+		
+		return yLower;
+	}
+	
+	
+	
+	public double getxUpper() {
+		
+		return xUpper;
+	}
+	
+	
+	
+	public double getyUpper() {
+		
+		return yUpper;
+	}
+	
+	
 	
 }

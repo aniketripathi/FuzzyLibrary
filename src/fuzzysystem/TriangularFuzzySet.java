@@ -15,22 +15,22 @@ public class TriangularFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public TriangularFuzzySet(double xLower, double yLower, double xMiddle, double xUpper, double yUpper)
+	public TriangularFuzzySet(double xLower, double yLower, double xMiddle, double yMiddle, double xUpper)
 			throws MembershipOutOfRangeException, InvalidShapeException {
 		
 		if (xLower >= xMiddle || xMiddle >= xUpper)
 			throw new InvalidShapeException("Triangle", "Unknown");
 		
-		lset1 = new LinearFuzzySet(xLower, xMiddle, yLower, yUpper);
-		lset2 = new LinearFuzzySet(xMiddle, xUpper, yLower, yUpper);
+		lset1 = new LinearFuzzySet(xLower, yLower, xMiddle, yMiddle);
+		lset2 = new LinearFuzzySet(xMiddle, yMiddle, xUpper, yLower);
 	}
 	
 	
 	
-	public TriangularFuzzySet(double xLower, double xMiddle, double xUpper, double yUpper)
+	public TriangularFuzzySet(double xLower, double xMiddle, double yMiddle,  double xUpper)
 			throws MembershipOutOfRangeException, InvalidShapeException {
 		
-		this(xLower, 0.0, xMiddle, xUpper, yUpper);
+		this(xLower, 0.0, xMiddle, yMiddle, xUpper);
 	}
 	
 	
@@ -76,6 +76,7 @@ public class TriangularFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double getArea() {
 		
 		return lset1.getArea() + lset2.getArea();
@@ -83,13 +84,15 @@ public class TriangularFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double maxMembershipAt() {
 		
-		return Math.max(lset1.maxMembershipAt(), lset2.maxMembershipAt());
+		return Math.max(lset1.getYLower(), lset1.getYUpper());
 	}
 	
 	
 	
+	@Override
 	public double getWeightedMean() {
 		
 		double x1 = lset1.getWeightedMean(), x2 = lset2.getWeightedMean(),

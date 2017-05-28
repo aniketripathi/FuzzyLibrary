@@ -25,11 +25,12 @@ public class GaussianFuzzySet extends AbstractFuzzySet {
 	@Override
 	public double getMembershipValue(double xValue) {
 		
-		return Math.exp(-(xValue - b) * (xValue - b) / (2 * a * a));
+		return Math.exp(-(xValue - b) * (xValue - b) / (2.0 * a * a));
 	}
 	
 	
 	
+	@Override
 	public double getWeightedMean() {
 		
 		return b;
@@ -37,6 +38,7 @@ public class GaussianFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double maxMembershipAt() {
 		
 		return b;
@@ -44,6 +46,7 @@ public class GaussianFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double getArea() {
 		
 		// Math.sqrt(Math.PI * 2) = 2.50662827463

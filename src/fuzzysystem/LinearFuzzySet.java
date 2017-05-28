@@ -121,6 +121,7 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double getWeightedMean() {
 		
 		/**
@@ -136,6 +137,7 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double maxMembershipAt() {
 		
 		double maxMembershipAt;
@@ -154,11 +156,13 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double getArea() {
 		
+		double area = (xUpper - xLower) * Math.min(yLower, yUpper); 
 		return (yUpper == yLower)
-				? (Math.abs(xUpper - xLower) * yLower)		// sloper is zero
-				: (0.5 * Math.abs(xUpper - xLower) * Math.abs(yUpper - yLower)); 		// non zero slope
+				? area		// sloper is zero
+				: area + (0.5 * Math.abs(xUpper - xLower) * Math.abs(yUpper - yLower)); 		// non zero slope
 	}
 	
 	

@@ -91,13 +91,15 @@ public class TrapezoidalFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double maxMembershipAt() {
 		
-		return Math.max(lset1.maxMembershipAt(), lset2.maxMembershipAt());
+		return (lset1.maxMembershipAt() + lset2.maxMembershipAt())/2.0;
 	}
 	
 	
 	
+	@Override
 	public double getWeightedMean() {
 		
 		double x1 = lset1.getWeightedMean(),
@@ -112,13 +114,13 @@ public class TrapezoidalFuzzySet extends AbstractFuzzySet {
 	
 	
 	
+	@Override
 	public double getArea() {
 		
-		double area = lset1.getArea() + lset2.getArea(),
-				m1 = lset1.getSlope();
+		double area = lset1.getArea() + lset2.getArea();
+				
+		return area + lset1.getYUpper() * (lset2.getXLower() - lset1.getXUpper());
 		
-		return (m1 > 0) ? area + (lset1.getYUpper() - lset1.getYLower()) * (lset2.getXLower() - lset1.getXUpper())
-				: area;
 		
 	}
 	
