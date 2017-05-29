@@ -1,22 +1,19 @@
 package fuzzysystem;
 
-
 public class FuzzyUtility {
 	
-
 	public static enum Defuzzification {
-		MAX_MEMBERSHIP_MEAN,
-		WEIGHTED_MAX_MEMBERSHIP_MEAN,
-		WEIGHTED_MEAN,
-		CENTROID;
-		
+		MAX_MEMBERSHIP_MEAN, WEIGHTED_MAX_MEMBERSHIP_MEAN, WEIGHTED_MEAN, CENTROID;
+	
 	}
 	
-	private double defuzzifyMaxMembershipMean(AbstractFuzzySet[] fuzzySets){
+	
+	
+	private static double defuzzifyMaxMembershipMean(AbstractFuzzySet[] fuzzySets) {
 		
-		double value = 0;	
+		double value = 0;
 		
-		for(AbstractFuzzySet fuzzySet : fuzzySets)
+		for (AbstractFuzzySet fuzzySet : fuzzySets)
 			value += fuzzySet.maxMembershipAt();
 		
 		value /= fuzzySets.length;
@@ -26,13 +23,13 @@ public class FuzzyUtility {
 	
 	
 	
-	private double defuzzifyWeightedMaxMembershipMean(AbstractFuzzySet[] fuzzySets){
+	private static double defuzzifyWeightedMaxMembershipMean(AbstractFuzzySet[] fuzzySets) {
 		
-		double value = 0;	
+		double value = 0;
 		double weightSum = 0;
 		
-		for(AbstractFuzzySet fuzzySet : fuzzySets){
-			double  x = fuzzySet.maxMembershipAt(),
+		for (AbstractFuzzySet fuzzySet : fuzzySets) {
+			double x = fuzzySet.maxMembershipAt(),
 					w = fuzzySet.getMembershipValue(x);
 			weightSum += w;
 			
@@ -46,13 +43,13 @@ public class FuzzyUtility {
 	
 	
 	
-	private double defuzzifyWeightedMean(AbstractFuzzySet[] fuzzySets){
+	private static double defuzzifyWeightedMean(AbstractFuzzySet[] fuzzySets) {
 		
-		double value = 0;	
+		double value = 0;
 		double weightSum = 0;
 		
-		for(AbstractFuzzySet fuzzySet : fuzzySets){
-			double  x = fuzzySet.getWeightedMean(),
+		for (AbstractFuzzySet fuzzySet : fuzzySets) {
+			double x = fuzzySet.getWeightedMean(),
 					w = fuzzySet.getMembershipValue(x);
 			weightSum += w;
 			
@@ -66,13 +63,13 @@ public class FuzzyUtility {
 	
 	
 	
-	private double defuzzifyCentroid(AbstractFuzzySet[] fuzzySets){
+	private static double defuzzifyCentroid(AbstractFuzzySet[] fuzzySets) {
 		
-		double value = 0;	
+		double value = 0;
 		double weightSum = 0;
 		
-		for(AbstractFuzzySet fuzzySet : fuzzySets){
-			double  x = fuzzySet.getWeightedMean(),
+		for (AbstractFuzzySet fuzzySet : fuzzySets) {
+			double x = fuzzySet.getWeightedMean(),
 					w = fuzzySet.getArea();
 			weightSum += w;
 			
@@ -86,31 +83,37 @@ public class FuzzyUtility {
 	
 	
 	
-	
-	public double defuzzify(Defuzzification method, AbstractFuzzySet ... fuzzySets ) {
-		double value;
+	public static double defuzzify(Defuzzification method, AbstractFuzzySet... fuzzySets) {
 		
-		switch(method){
+		double value = 0;
+		
+		if (fuzzySets.length > 0) {
 			
-			case MAX_MEMBERSHIP_MEAN :
-				value = defuzzifyMaxMembershipMean(fuzzySets);
+			switch (method) {
+				
+				case MAX_MEMBERSHIP_MEAN:
+					value = defuzzifyMaxMembershipMean(fuzzySets);
+					break;
+				
+				case WEIGHTED_MAX_MEMBERSHIP_MEAN:
+					value = defuzzifyWeightedMaxMembershipMean(fuzzySets);
+					break;
+				
+				case WEIGHTED_MEAN:
+					value = defuzzifyWeightedMean(fuzzySets);
+					break;
+				
+				case CENTROID:
+					value = defuzzifyCentroid(fuzzySets);
+					break;
+				
+				default:
+					value = 0;
+					
+			}
 			
-			case WEIGHTED_MAX_MEMBERSHIP_MEAN :
-				value = defuzzifyWeightedMaxMembershipMean(fuzzySets);
-				
-			case WEIGHTED_MEAN :
-				value = defuzzifyWeightedMean(fuzzySets);
-				
-			case CENTROID :
-				value = defuzzifyCentroid(fuzzySets);
-			
-			default :
-				value = 0;
-				
 		}
-		
 		return value;
 	}
-	
 	
 }

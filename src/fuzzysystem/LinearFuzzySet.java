@@ -159,8 +159,8 @@ public class LinearFuzzySet extends AbstractFuzzySet {
 	@Override
 	public double getArea() {
 		
-		double area = (xUpper - xLower) * Math.min(yLower, yUpper); 
-		return (yUpper == yLower)
+		double area = (xUpper - xLower) * Math.min(yLower, yUpper);
+		return (Math.abs(yUpper - yLower) < 0.0000001)
 				? area		// sloper is zero
 				: area + (0.5 * Math.abs(xUpper - xLower) * Math.abs(yUpper - yLower)); 		// non zero slope
 	}

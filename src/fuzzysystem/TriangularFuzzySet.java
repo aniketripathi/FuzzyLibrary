@@ -27,7 +27,7 @@ public class TriangularFuzzySet extends AbstractFuzzySet {
 	
 	
 	
-	public TriangularFuzzySet(double xLower, double xMiddle, double yMiddle,  double xUpper)
+	public TriangularFuzzySet(double xLower, double xMiddle, double yMiddle, double xUpper)
 			throws MembershipOutOfRangeException, InvalidShapeException {
 		
 		this(xLower, 0.0, xMiddle, yMiddle, xUpper);

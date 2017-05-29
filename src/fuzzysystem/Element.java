@@ -1,11 +1,17 @@
 package fuzzysystem;
 
 /**
- * <p>Element is the basic unit of the fuzzy set. It contains two fields name and value. The name is a string which describes the 
- * element. The value is used to calculate the membership value of the function.</p>
+ * <p>
+ * Element is the basic unit of the fuzzy set. It contains two fields name and value. The name is a string which
+ * describes the
+ * element. The value is used to calculate the membership value of the function.
+ * </p>
  * 
- * <p>Element is more useful in {@link DiscreteFuzzySet}. Every member of {@linkplain DiscreteFuzzySet} is an instance of this class. This is an
- * immutable class.</p> 
+ * <p>
+ * Element is more useful in {@link DiscreteFuzzySet}. Every member of {@linkplain DiscreteFuzzySet} is an instance of
+ * this class. This is an
+ * immutable class.
+ * </p>
  * 
  * 
  * @author Aniket Kumar Tripathi
@@ -18,21 +24,24 @@ public final class Element {
 	/**
 	 * Represents the name of this element. It is an optional field. Default value is "". It gives more readability.
 	 */
-	private final String	name;
+	private final String name;
 	
 	/**
-	 * Stores of the value of the element. It is used for all the operations and calculation performed by an element. 
+	 * Stores of the value of the element. It is used for all the operations and calculation performed by an element.
 	 */
-	private final double	value;
+	private final double value;
 	
 	/**
-	 * This determines whether the {@link #name} field  or {@link #value} field will be used for representation of element in string..
+	 * This determines whether the {@link #name} field or {@link #value} field will be used for representation of
+	 * element in string..
 	 */
-	private final boolean	useValueAsName;
+	private final boolean useValueAsName;
+	
 	
 	
 	/**
-	 * Creates a new <i>Element</i> instance from the given value and the given name. The <i>useValueAsName</i> field is set to
+	 * Creates a new <i>Element</i> instance from the given value and the given name. The <i>useValueAsName</i> field is
+	 * set to
 	 * false.
 	 */
 	public Element(String name, double value) {
@@ -40,6 +49,7 @@ public final class Element {
 		this.value = value;
 		this.useValueAsName = false;
 	}
+	
 	
 	
 	/**
@@ -50,6 +60,7 @@ public final class Element {
 		this.value = value;
 		this.useValueAsName = useValueAsName;
 	}
+	
 	
 	
 	/**
@@ -63,14 +74,16 @@ public final class Element {
 	}
 	
 	
+	
 	/**
-	 * Creates a new <i>Element</i> instance from the given value. 
+	 * Creates a new <i>Element</i> instance from the given value.
 	 */
 	public Element(double value, boolean useNameAsValue) {
 		this.name = "";
 		this.value = value;
 		this.useValueAsName = useNameAsValue;
 	}
+	
 	
 	
 	/**
@@ -82,8 +95,11 @@ public final class Element {
 		this.useValueAsName = element.useValueAsName;
 	}
 	
+	
+	
 	/**
 	 * Getter method for {@linkplain #name} field
+	 * 
 	 * @return The name of the element
 	 */
 	public String getName() {
@@ -91,9 +107,11 @@ public final class Element {
 		return name;
 	}
 	
-
+	
+	
 	/**
 	 * Getter method for {@linkplain #value} field
+	 * 
 	 * @return The value of the element
 	 */
 	public double getValue() {
@@ -102,15 +120,18 @@ public final class Element {
 	}
 	
 	
+	
 	/**
 	 * Returns whether the value will be representation of element in string.
-	 * @return  True	-	If value will be used as string representation</br>
-	 * 			False	-	Otherwise
+	 * 
+	 * @return True - If value will be used as string representation</br>
+	 *         False - Otherwise
 	 */
 	public boolean useValueAsName() {
 		
 		return useValueAsName;
 	}
+	
 	
 	
 	/**
